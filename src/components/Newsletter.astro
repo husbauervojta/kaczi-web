@@ -1,0 +1,46 @@
+---
+/**
+ * Jediný přímý kanál na fanoušky — proto má vlastní sekci a důvod se přihlásit,
+ * ne jen políčko v patičce. Souhlas je povinný a odesílá se s ním.
+ */
+---
+
+<section class="sec" id="newsletter">
+  <div class="wrap">
+    <div class="signup">
+      <div>
+        <p class="eyebrow">Přímý kanál</p>
+        <h2 class="h2">Ať vám neuteče koncert ve vašem městě</h2>
+        <p class="lede" style="margin-top:16px">
+          Jednou za měsíc: nové termíny, nová hudba a jako první e-mail dostanete demo verzi Lamp, která nikde jinde
+          nevyšla.
+        </p>
+      </div>
+      <div>
+        <form class="form" method="post" action="/api/newsletter">
+          <label class="sr" for="nl-email">E-mail</label>
+          <input id="nl-email" type="email" name="email" placeholder="vas@email.cz" required autocomplete="email" />
+          <button class="btn btn--fill" type="submit">Odebírat</button>
+        </form>
+        <label class="consent">
+          <input type="checkbox" name="souhlas" required />
+          <span>
+            Souhlasím se zpracováním e-mailu pro zasílání novinek. Odhlásit se dá jedním klikem.
+            <a href="/ochrana-osobnich-udaju/">Zásady ochrany osobních údajů</a>
+          </span>
+        </label>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+</style>

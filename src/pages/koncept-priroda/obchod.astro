@@ -1,0 +1,82 @@
+---
+import LayoutPriroda from "../../layouts/LayoutPriroda.astro";
+import PageHeader from "../../components/priroda/PageHeader.astro";
+import ProductCard from "../../components/priroda/ProductCard.astro";
+import { getCollection } from "astro:content";
+
+const vydani = (await getCollection("vydani")).sort((a, b) => b.data.year - a.data.year);
+
+const merch = [
+  { id: "tricko-beskydy", title: "Tričko Beskydy", priceCzk: 390, note: "Pánské i dámské, S až XXL" },
+  { id: "tricko-kaczi", title: "Tričko Kaczi", priceCzk: 350, note: "S až XXL" },
+  { id: "naramek", title: "Kožený náramek", priceCzk: 149, note: "Ruční výroba" },
+  { id: "trsatko", title: "Trsátko Kaczi", priceCzk: 30, note: "Sada 3 kusy" },
+];
+
+const doprava = [
+  { item: "Zásilkovna, výdejní místo", meta: "79 Kč" },
+  { item: "Česká pošta, Balík do ruky", meta: "129 Kč" },
+  { item: "Osobní převzetí na koncertě", meta: "zdarma" },
+  { item: "Platba kartou nebo bankovním převodem", meta: "ihned po objednávce" },
+  { item: "Vrácení do 14 dnů bez udání důvodu", meta: "viz obchodní podmínky" },
+];
+---
+
+<LayoutPriroda title="Obchod, Kaczi" description="LP a CD Kněhyně, album Nahá, EP Polonahá a merch.">
+  <PageHeader
+    kicker="Obchod"
+    title="Vezměte si kus Beskyd domů"
+    intro="Desky s podpisem, trička a drobnosti. Odesíláme do dvou pracovních dnů."
+  />
+
+  <section class="bg-bg py-20 md:py-28">
+    <div class="mx-auto max-w-6xl px-6 md:px-10">
+      <p class="mb-2 font-sans text-xs uppercase tracking-[0.3em] text-ember">Desky</p>
+      <h2 class="mb-10 font-display text-4xl italic text-ink md:text-5xl">Hudba na nosiči</h2>
+      <div class="grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-3 lg:grid-cols-4">
+        {
+          vydani.map((v) => (
+            <ProductCard
+              id={v.id}
+              title={v.data.title}
+              meta={`${v.data.format} · ${v.data.year}`}
+              priceCzk={v.data.priceCzk}
+              placeholderLabel="Obal, 1:1"
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-bg-2 py-20 md:py-28">
+    <div class="mx-auto max-w-6xl px-6 md:px-10">
+      <p class="mb-2 font-sans text-xs uppercase tracking-[0.3em] text-moss">Merch</p>
+      <h2 class="mb-10 font-display text-4xl italic text-ink md:text-5xl">Na sebe i do kapsy</h2>
+      <div class="grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-3 lg:grid-cols-4">
+        {
+          merch.map((m) => (
+            <ProductCard id={m.id} title={m.title} meta={m.note} priceCzk={m.priceCzk} placeholderLabel="Produkt, 1:1" />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-bg py-20 md:py-28">
+    <div class="mx-auto max-w-3xl px-6 md:px-10">
+      <p class="mb-2 font-sans text-xs uppercase tracking-[0.3em] text-ember">Než objednáte</p>
+      <h2 class="mb-10 font-display text-4xl italic text-ink md:text-5xl">Doprava a platba</h2>
+      <ul class="divide-y divide-line border-y border-line font-sans">
+        {
+          doprava.map((d) => (
+            <li class="flex items-baseline justify-between gap-4 py-4">
+              <span class="text-ink">{d.item}</span>
+              <span class="shrink-0 text-sm text-ink-3">{d.meta}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</LayoutPriroda>

@@ -1,0 +1,139 @@
+---
+import Base from "../layouts/Base.astro";
+import GigList from "../components/GigList.astro";
+import Newsletter from "../components/Newsletter.astro";
+import { SITE, MEDIA, MILNIKY, PRESS_KIT } from "../lib/site";
+import { upcoming, czDate, eventLd } from "../lib/gigs";
+
+const gigs = await upcoming();
+const nejblizsi = gigs[0];
+const jsonLd = eventLd(gigs, SITE.url);
+---
+
+<Base title="Kaczi — písničkářka z Beskyd" jsonLd={jsonLd}>
+  <!-- HERO -->
+  <div class="wrap">
+    <header class="hero">
+      <div class="hero__copy">
+        <h1 class="hero__name">Kaczi</h1>
+        <p class="hero__claim">{SITE.claim}</p>
+        <div class="btn-row">
+          <a class="btn btn--fill" href="/hudba/">Poslechnout Lampy</a>
+          <a class="btn btn--line" href="/koncerty/">Kalendář koncertů</a>
+        </div>
+        <p class="elev">Kněhyně · 1 257 m n. m. · Moravskoslezské Beskydy</p>
+      </div>
+      <div class="shot" data-label="Portrét · 3:4"></div>
+    </header>
+  </div>
+
+  <!-- NEJBLIŽŠÍ KONCERT -->
+  {
+    nejblizsi && (
+      <div class="wrap">
+        <div class="next">
+          <span class="next__tag">Nejbližší koncert</span>
+          <span class="next__date">{czDate(nejblizsi.data.date)}</span>
+          <span class="next__where">
+            {nejblizsi.data.city} — {nejblizsi.data.venue}, {nejblizsi.data.time}
+          </span>
+          <a class="next__link" href="/koncerty/">Všechny termíny</a>
+        </div>
+      </div>
+    )
+  }
+
+  <!-- KONCERTY -->
+  <section class="sec">
+    <div class="wrap">
+      <p class="eyebrow">Podzim 2026 · {gigs.length} termínů</p>
+      <h2 class="h2">Kde hraju</h2>
+      <GigList gigs={gigs} />
+      <div class="btn-row" style="margin-top:26px">
+        <a class="btn btn--line" href="/koncerty.ics">Přidat do kalendáře</a>
+        <a class="btn btn--line" href="/koncerty/">Odehrané koncerty</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOVINKA -->
+  <section class="sec">
+    <div class="wrap">
+      <div class="release">
+        <div class="shot" data-label="Obal alba · 1:1"></div>
+        <div>
+          <p class="eyebrow">Nový singl · první z chystaného alba</p>
+          <h2 class="h2">Lampy</h2>
+          <p class="lede" style="margin-top:18px">
+            Osobní výpověď o blízkosti, křehkosti i světle, které zůstává, i když se vztah ocitne ve stínu. Nahlíží v ní
+            na svět mužskýma očima.
+          </p>
+          <ul class="tracks">
+            <li><b>Kněhyně</b> <span>LP · 2024</span></li>
+            <li><b>Nahá</b> <span>CD · 2021 · nominace Anděl</span></li>
+            <li><b>Polonahá</b> <span>EP · 2019</span></li>
+          </ul>
+          <div class="btn-row" style="margin-top:28px">
+            <a class="btn btn--fill" href="/obchod/">Koupit LP — 590 Kč</a>
+            <a class="btn btn--line" href="/hudba/">Videa a poslech</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MÉDIA -->
+  <section class="sec">
+    <div class="wrap">
+      <p class="eyebrow">Psali a mluvili o ní</p>
+      <h2 class="h2" style="margin-bottom:34px">Přes čtyřicet mediálních výstupů</h2>
+      <div class="press">
+        <div>
+          {
+            MEDIA.map((m) => (
+              <blockquote class="quote">
+                <p>{m.quote}</p>
+                <cite>{m.source}</cite>
+              </blockquote>
+            ))
+          }
+        </div>
+        <div class="facts">
+          {
+            MILNIKY.map((m) => (
+              <div class="fact">
+                <span class="fact__y">{m.year}</span>
+                <span class="fact__t">{m.text}</span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRO POŘADATELE -->
+  <section class="sec">
+    <div class="wrap">
+      <div class="promo">
+        <div>
+          <p class="eyebrow">Pro pořadatele</p>
+          <h2 class="h2">Všechno na jedno stažení</h2>
+          <p class="lede" style="margin-top:18px">
+            Dramaturg nemá čas psát e-mail a čekat na odpověď. Kompletní press kit je veřejný, na jedné adrese, aktuální
+            k dnešnímu dni.
+          </p>
+          <div class="btn-row" style="margin-top:26px">
+            <a class="btn btn--fill" href="/pro-poradatele/">Stáhnout press kit</a>
+            <a class="btn btn--line" href="/kontakt/">Poptat termín</a>
+          </div>
+        </div>
+        <ul class="kit">
+          {PRESS_KIT.map((k) => <li>{k.item} <em>{k.meta}</em></li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <Newsletter />
+</Base>

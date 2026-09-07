@@ -1,0 +1,67 @@
+---
+import Base from "../layouts/Base.astro";
+import { PRESS_KIT, SITE } from "../lib/site";
+import { past } from "../lib/gigs";
+
+const odehrane = (await past()).slice(0, 6);
+---
+
+<Base
+  title="Press kit a podklady pro pořadatele — Kaczi"
+  description="Tiskové fotografie, technický rider, stage plan, logo a bio ke stažení. Vše na jedné adrese, aktuální."
+>
+  <div class="wrap">
+    <header class="hero">
+      <div class="hero__copy">
+        <h1 class="hero__name">Pro pořadatele</h1>
+        <p class="hero__claim">
+          Všechny podklady na jednom místě a bez čekání na odpověď. Stáhněte si, co potřebujete, a ozvěte se, až budete
+          mít termín.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn--fill" href="/press-kit-kaczi.zip">Stáhnout celý press kit</a>
+          <a class="btn btn--line" href="/kontakt/">Poptat termín</a>
+        </div>
+      </div>
+      <div class="shot" data-label="Tisková fotografie · 3:4"></div>
+    </header>
+  </div>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="promo">
+        <div>
+          <p class="eyebrow">Obsah balíčku</p>
+          <h2 class="h2">Co v něm najdete</h2>
+          <p class="lede" style="margin-top:18px">
+            Balíček se generuje ze stejných souborů, které vidíte v seznamu. Když se něco změní, změní se to na jednom
+            místě.
+          </p>
+        </div>
+        <ul class="kit">
+          {PRESS_KIT.map((k) => <li>{k.item} <em>{k.meta}</em></li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <p class="eyebrow">Reference</p>
+      <h2 class="h2">Naposledy hrála</h2>
+      <ul class="kit" style="margin-top:26px">
+        {odehrane.map((g) => <li>{g.data.city} — {g.data.venue} <em>{g.data.date}</em></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <p class="eyebrow">Booking</p>
+      <h2 class="h2">{SITE.booking.person}</h2>
+      <p class="lede" style="margin-top:18px">
+        <a href={SITE.booking.phoneHref}>{SITE.booking.phone}</a> · <a href={`mailto:${SITE.booking.email}`}>{SITE.booking.email}</a>
+      </p>
+    </div>
+  </section>
+</Base>

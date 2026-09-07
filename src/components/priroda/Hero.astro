@@ -1,0 +1,106 @@
+---
+/**
+ * Hero — směr "příroda". Filmová, pohlcující, hodně negativního
+ * prostoru, obří typografie prolínající se s krajinou (viz Backdrop).
+ * Skládá se ze tří modulů: Backdrop (atmosféra), tenhle soubor
+ * (layout, typografie, CTA) a NextGigCard (skleněná karta).
+ */
+import Backdrop from "./Backdrop.astro";
+import NextGigCard from "./NextGigCard.astro";
+
+interface Cta {
+  label: string;
+  href: string;
+}
+
+interface NextGig {
+  date: string; // formátováno přes czDate() v lib/gigs.ts
+  city: string;
+  venue: string;
+  href: string;
+}
+
+interface Props {
+  name: string;
+  tagline: string;
+  claim: string;
+  primaryCta: Cta;
+  secondaryCta: Cta;
+  nextGig?: NextGig;
+  imageSrc?: string;
+  imageAlt?: string;
+}
+
+const { name, tagline, claim, primaryCta, secondaryCta, nextGig, imageSrc, imageAlt } = Astro.props;
+---
+
+<header class="relative min-h-screen overflow-hidden bg-bg text-ink">
+  <Backdrop imageSrc={imageSrc} imageAlt={imageAlt} />
+
+  <div class="relative z-10 mx-auto flex min-h-screen max-w-[1440px] flex-col px-6 md:px-12">
+    <!-- nav sedí jako samostatná komponenta přes tuhle sekci (viz LayoutPriroda) -->
+
+    <!-- headline + skleněná karta -->
+    <div class="grid flex-1 grid-cols-1 items-end gap-10 pb-24 pt-32 lg:grid-cols-[1.5fr_auto] lg:items-center md:pt-28">
+      <div class="max-w-3xl">
+        <p class="mb-5 font-sans text-xs uppercase tracking-[0.35em] text-gold">{tagline}</p>
+        <h1
+          class="font-display text-[clamp(4.2rem,13vw,10.5rem)] italic uppercase leading-[0.85] tracking-tight text-ink"
+          style="filter: drop-shadow(0 6px 40px rgba(0,0,0,0.5));"
+        >
+          {name}
+        </h1>
+        <p class="mt-7 max-w-md font-sans text-lg leading-relaxed text-ink-2">{claim}</p>
+
+        <div class="mt-9 flex flex-wrap gap-4">
+          <a
+            href={primaryCta.href}
+            class="rounded-full bg-ember px-8 py-3.5 font-sans text-sm font-semibold uppercase tracking-wide text-bg shadow-lg shadow-ember/20 transition-all hover:-translate-y-0.5 hover:bg-ember-hi focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ember"
+          >
+            {primaryCta.label}
+          </a>
+          <a
+            href={secondaryCta.href}
+            class="rounded-full border border-line-strong px-8 py-3.5 font-sans text-sm font-semibold uppercase tracking-wide text-ink backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ember"
+          >
+            {secondaryCta.label}
+          </a>
+        </div>
+      </div>
+
+      {
+        nextGig && (
+          <div class="lg:justify-self-end">
+            <NextGigCard date={nextGig.date} city={nextGig.city} venue={nextGig.venue} href={nextGig.href} />
+          </div>
+        )
+      }
+    </div>
+
+    <!-- tenký ticker + scroll cue -->
+    <div class="flex items-center justify-between gap-6 border-t border-line py-5">
+      <div class="overflow-hidden">
+        <div
+          class="flex whitespace-nowrap font-sans text-[11px] uppercase tracking-[0.3em] text-ink-3"
+          style="animation: ticker 26s linear infinite; width: max-content;"
+        >
+          {
+            Array.from({ length: 2 }).map(() => (
+              <>
+                <span class="px-5">Beskydy</span>
+                <span class="text-ember">·</span>
+                <span class="px-5">Šanson</span>
+                <span class="text-ember">·</span>
+                <span class="px-5">Harmonika</span>
+                <span class="text-ember">·</span>
+                <span class="px-5">Živě</span>
+                <span class="text-ember">·</span>
+              </>
+            ))
+          }
+        </div>
+      </div>
+      <div class="h-8 w-px shrink-0 bg-ember" style="animation: pulseLine 2.4s ease-in-out infinite;"></div>
+    </div>
+  </div>
+</header>

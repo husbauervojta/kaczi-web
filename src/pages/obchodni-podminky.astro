@@ -1,0 +1,43 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="Obchodní podmínky — Kaczi" description="Obchodní podmínky, doprava, platba, reklamace a odstoupení od smlouvy.">
+  <div class="wrap">
+    <header class="hero">
+      <div class="hero__copy">
+        <h1 class="hero__name">Obchodní podmínky</h1>
+        <p class="hero__claim">Kostra dokumentu. Než web pojede naostro, nechte finální znění zkontrolovat právníkem.</p>
+      </div>
+    </header>
+  </div>
+
+  <section class="sec">
+    <div class="wrap doc">
+      <h2 class="h2">1. Prodávající</h2>
+      <p>Jméno a příjmení, adresa sídla, IČO, DIČ, kontaktní e-mail a telefon. Zapsáno v živnostenském rejstříku.</p>
+
+      <h2 class="h2">2. Objednávka a uzavření smlouvy</h2>
+      <p>Popis kroků objednávky, potvrzení e-mailem, ceny včetně DPH.</p>
+
+      <h2 class="h2">3. Doprava a platba</h2>
+      <p>Způsoby dopravy a jejich ceny, dodací lhůty, způsoby platby.</p>
+
+      <h2 class="h2" id="odstoupeni">4. Odstoupení od smlouvy</h2>
+      <p>Právo spotřebitele odstoupit do 14 dnů, postup, kdo hradí náklady na vrácení, výjimky u digitálního obsahu.</p>
+
+      <h2 class="h2" id="reklamace">5. Reklamace a záruka</h2>
+      <p>Postup uplatnění, lhůty vyřízení, adresa pro zaslání reklamovaného zboží.</p>
+
+      <h2 class="h2">6. Mimosoudní řešení sporů</h2>
+      <p>Česká obchodní inspekce, adresa a odkaz na její platformu.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .doc { max-width: 68ch; }
+  .doc .h2 { font-size: clamp(22px, 2.6vw, 30px); margin-top: 44px; }
+  .doc .h2:first-child { margin-top: 0; }
+  .doc p { color: var(--fg-2); line-height: 1.7; margin-top: 12px; }
+</style>

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "knehyne",
+    "title": "Kněhyně",
+    "year": 2024,
+    "format": "LP / CD",
+    "note": "Druhé studiové album",
+    "priceCzk": 590
+  },
+  {
+    "id": "naha",
+    "title": "Nahá",
+    "year": 2021,
+    "format": "CD",
+    "note": "Nominace na cenu Anděl",
+    "priceCzk": 300
+  },
+  {
+    "id": "polonaha",
+    "title": "Polonahá",
+    "year": 2019,
+    "format": "EP",
+    "note": "Debutové EP",
+    "priceCzk": 180
+  }
+]

@@ -1,0 +1,41 @@
+---
+/**
+ * Karta videa, směr "příroda". Odkazuje rovnou na YouTube (cílový _blank),
+ * žádný vložený přehrávač, žádné cizí cookies dřív, než si o ně návštěvník
+ * řekne kliknutím pryč z webu.
+ */
+interface Props {
+  id: string;
+  title: string;
+  note: string;
+}
+
+const { id, title, note } = Astro.props;
+const thumb = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+---
+
+<a
+  href={`https://www.youtube.com/watch?v=${id}`}
+  target="_blank"
+  rel="noopener"
+  class="group relative block aspect-video overflow-hidden rounded-xl border border-line bg-bg-3"
+>
+  <img
+    src={thumb}
+    alt={`${title}, náhled videa`}
+    loading="lazy"
+    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+  />
+  <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+
+  <span class="absolute inset-0 flex items-center justify-center">
+    <span class="flex h-14 w-14 items-center justify-center rounded-full bg-bg/80 text-ink backdrop-blur-sm transition-transform group-hover:scale-110">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+    </span>
+  </span>
+
+  <div class="absolute inset-x-0 bottom-0 p-4">
+    <p class="font-display text-xl italic text-ink">{title}</p>
+    <p class="font-sans text-xs uppercase tracking-[0.15em] text-ink-3">{note}</p>
+  </div>
+</a>

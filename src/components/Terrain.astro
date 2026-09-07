@@ -1,0 +1,59 @@
+---
+/**
+ * Vrstevnice — motiv odvozený z ručně kresleného kruhu v jejím logu.
+ * Kreslí se na canvas, ne jako obrázek: pár set bajtů místo stovek kB.
+ * Aktivní jen ve směru KRAJINA.
+ */
+---
+
+<canvas id="terrain" aria-hidden="true"></canvas>
+
+<script>
+  const cv = document.getElementById("terrain") as HTMLCanvasElement | null;
+  if (cv) {
+    const ctx = cv.getContext("2d");
+
+    const noise = (a: number, b: number) =>
+      Math.sin(a * 1.7 + b * 0.9) * 0.6 + Math.sin(a * 3.3 - b * 2.1) * 0.25 + Math.sin(a * 6.1 + b * 4.7) * 0.12;
+
+    const paint = () => {
+      if (!ctx || document.documentElement.dataset.theme !== "krajina") return;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const w = document.documentElement.clientWidth;
+      const h = document.body.scrollHeight;
+      cv.width = w * dpr;
+      cv.height = h * dpr;
+      cv.style.height = h + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+      ctx.strokeStyle = "rgba(22,28,23,0.20)";
+      ctx.lineWidth = 1;
+
+      const cx = w * 0.72;
+      const cy = h * 0.12;
+      for (let ring = 0; ring < 40; ring++) {
+        const base = 60 + ring * 84;
+        ctx.beginPath();
+        for (let t = 0; t <= 260; t++) {
+          const a = (t / 260) * Math.PI * 2;
+          const r = base * (1 + 0.11 * noise(Math.cos(a) * 2 + ring * 0.4, Math.sin(a) * 2 - ring * 0.3));
+          const x = cx + Math.cos(a) * r;
+          const y = cy + Math.sin(a) * r * 0.62;
+          t ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+        }
+        ctx.closePath();
+        ctx.globalAlpha = ring % 5 === 0 ? 0.9 : 0.4;
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+    };
+
+    paint();
+    let t: number;
+    window.addEventListener("resize", () => {
+      clearTimeout(t);
+      t = window.setTimeout(paint, 120);
+    });
+    document.addEventListener("themechange", paint);
+  }
+</script>

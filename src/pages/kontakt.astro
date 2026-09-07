@@ -1,0 +1,59 @@
+---
+import Base from "../layouts/Base.astro";
+import { SITE } from "../lib/site";
+---
+
+<Base
+  title="Kontakt a poptávka koncertu — Kaczi"
+  description="Booking, poptávka termínu a kontakt na eshop."
+>
+  <div class="wrap">
+    <header class="hero">
+      <div class="hero__copy">
+        <h1 class="hero__name">Kontakt</h1>
+        <p class="hero__claim">Máte termín, nápad na spolupráci nebo dotaz k objednávce? Ozvěte se.</p>
+      </div>
+    </header>
+  </div>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="promo">
+        <div>
+          <p class="eyebrow">Poptávka koncertu</p>
+          <h2 class="h2">Napište mi termín</h2>
+          <p class="lede" style="margin-top:18px">
+            Vyplněný formulář odpoví rychleji než e-mail — rovnou vím, kdy, kde a v jakém obsazení.
+          </p>
+          <form class="booking" method="post" action="/api/poptavka">
+            <label>Akce a místo<input type="text" name="akce" required /></label>
+            <label>Datum<input type="date" name="datum" required /></label>
+            <label>Váš e-mail<input type="email" name="email" required autocomplete="email" /></label>
+            <label>Poznámka<textarea name="poznamka" rows="4"></textarea></label>
+            <button class="btn btn--fill" type="submit">Odeslat poptávku</button>
+          </form>
+        </div>
+
+        <div>
+          <p class="eyebrow">Přímé kontakty</p>
+          <ul class="kit">
+            <li>Booking — {SITE.booking.person} <em>{SITE.booking.phone}</em></li>
+            <li><a href={`mailto:${SITE.booking.email}`}>{SITE.booking.email}</a> <em>koncerty</em></li>
+            <li><a href={`mailto:${SITE.shopEmail}`}>{SITE.shopEmail}</a> <em>objednávky</em></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .booking { display: grid; gap: 16px; margin-top: 26px; max-width: 46ch; }
+  .booking label { display: grid; gap: 7px; font: 600 11px/1 var(--body); letter-spacing: .16em; text-transform: uppercase; color: var(--fg-2); }
+  .booking input, .booking textarea {
+    background: var(--bg-2); color: var(--fg);
+    border: 1px solid var(--line-strong); border-radius: var(--radius);
+    padding: 14px 15px; font: 400 15px/1.5 var(--body); width: 100%;
+  }
+  .booking button { justify-self: start; }
+</style>

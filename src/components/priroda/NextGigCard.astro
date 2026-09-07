@@ -1,0 +1,37 @@
+---
+/**
+ * Plovoucí skleněná karta s nejbližším koncertem — směr "příroda".
+ * Samostatná komponenta, aby Hero.astro zůstal čitelný a šla se dát
+ * použít i jinde (např. sticky v Nav, až bude web mít víc stránek
+ * v tomhle směru).
+ */
+interface Props {
+  date: string;
+  city: string;
+  venue: string;
+  href: string;
+}
+
+const { date, city, venue, href } = Astro.props;
+---
+
+<div
+  class="w-full max-w-xs rounded-2xl border border-white/15 bg-black/40 p-6 shadow-2xl shadow-black/50 backdrop-blur-xl transition-transform duration-300 hover:-translate-y-1 sm:rotate-1 sm:hover:rotate-0"
+>
+  <p class="flex items-center gap-2 font-sans text-xs uppercase tracking-[0.25em] text-ink-2">
+    <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-ember"></span>
+    Nejbližší koncert
+  </p>
+  <p class="mt-4 font-display text-4xl italic text-ink">{date}</p>
+  <p class="mt-1 font-sans text-ink-2">{city}</p>
+  <p class="font-sans text-sm text-ink-3">{venue}</p>
+  <a
+    href={href}
+    class="mt-5 inline-flex items-center gap-2 rounded-full bg-ember px-5 py-2.5 font-sans text-sm font-semibold text-bg transition-colors hover:bg-ember-hi focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+  >
+    Vstupenky
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+      <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </a>
+</div>

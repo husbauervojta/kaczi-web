@@ -1,0 +1,78 @@
+---
+/**
+ * Press / Booking — směr "příroda". Obsah bere ze SITE.booking a
+ * PRESS_KIT v src/lib/site.ts, stejně jako stávající /pro-poradatele/,
+ * aby se fakta (kontakt, obsah balíčku) nepsala na dvě místa.
+ */
+interface PressItem {
+  item: string;
+  meta: string;
+}
+
+interface Booking {
+  person: string;
+  phone: string;
+  phoneHref: string;
+  email: string;
+}
+
+interface Props {
+  pressKit: PressItem[];
+  booking: Booking;
+  epkHref?: string;
+}
+
+const { pressKit, booking, epkHref = "/press-kit-kaczi.zip" } = Astro.props;
+---
+
+<section class="bg-bg-2 py-20 text-ink md:py-28">
+  <div class="mx-auto grid max-w-6xl gap-12 px-6 md:grid-cols-2 md:px-10">
+    <div>
+      <p class="mb-2 font-sans text-xs uppercase tracking-[0.3em] text-moss">Pro pořadatele</p>
+      <h2 class="font-display text-4xl italic text-ink md:text-5xl">Všechno na jedno stažení</h2>
+      <p class="mt-5 max-w-md font-sans leading-relaxed text-ink-2">
+        Kompletní press kit je veřejný, na jedné adrese, aktuální k dnešnímu dni, bez čekání na odpověď.
+      </p>
+
+      <div class="mt-8 flex flex-wrap gap-4">
+        <a
+          href={epkHref}
+          class="rounded-sm bg-ember px-7 py-3 font-sans text-sm font-medium uppercase tracking-[0.08em] text-bg transition-colors hover:bg-ember-hi focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ember"
+        >
+          Stáhnout press kit
+        </a>
+        <a
+          href="/koncept-priroda/kontakt/"
+          class="rounded-sm border border-line-strong px-7 py-3 font-sans text-sm font-medium uppercase tracking-[0.08em] text-ink transition-colors hover:border-ink hover:bg-bg-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ember"
+        >
+          Poptat termín
+        </a>
+      </div>
+
+      <div class="mt-10 border-t border-line pt-6 font-sans">
+        <p class="text-xs uppercase tracking-[0.14em] text-ink-3">Booking</p>
+        <p class="mt-2 text-lg text-ink">{booking.person}</p>
+        <p class="mt-1 text-sm text-ink-2">
+          <a class="underline decoration-line-strong underline-offset-4 hover:text-ember hover:decoration-ember" href={booking.phoneHref}>
+            {booking.phone}
+          </a>
+          <span class="px-2 text-ink-3">·</span>
+          <a class="underline decoration-line-strong underline-offset-4 hover:text-ember hover:decoration-ember" href={`mailto:${booking.email}`}>
+            {booking.email}
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <ul class="divide-y divide-line self-start border-y border-line font-sans">
+      {
+        pressKit.map((k) => (
+          <li class="flex items-baseline justify-between gap-4 py-4">
+            <span class="text-ink">{k.item}</span>
+            <span class="shrink-0 text-sm text-ink-3">{k.meta}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

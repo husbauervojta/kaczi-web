@@ -1,0 +1,74 @@
+---
+import LayoutPriroda from "../../layouts/LayoutPriroda.astro";
+import PageHeader from "../../components/priroda/PageHeader.astro";
+import { SITE } from "../../lib/site";
+
+const inputClass =
+  "w-full rounded-lg border border-line-strong bg-bg-3 px-4 py-3 font-sans text-ink placeholder:text-ink-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ember";
+const labelClass = "grid gap-2 font-sans text-xs font-semibold uppercase tracking-[0.16em] text-ink-3";
+---
+
+<LayoutPriroda title="Kontakt, Kaczi" description="Booking, poptávka termínu a kontakt na eshop.">
+  <PageHeader kicker="Kontakt" title="Máte termín nebo nápad?" intro="Napište, ozvu se." />
+
+  <section class="bg-bg py-20 md:py-28">
+    <div class="mx-auto grid max-w-6xl gap-16 px-6 md:grid-cols-2 md:px-10">
+      <div>
+        <p class="mb-2 font-sans text-xs uppercase tracking-[0.3em] text-ember">Poptávka koncertu</p>
+        <h2 class="mb-6 font-display text-3xl italic text-ink md:text-4xl">Napište mi termín</h2>
+        <p class="mb-8 font-sans text-ink-2">
+          Vyplněný formulář odpoví rychleji než e-mail, rovnou vím, kdy, kde a v jakém obsazení.
+        </p>
+        <form class="grid max-w-md gap-5" method="post" action="/api/poptavka">
+          <label class={labelClass}>
+            Akce a místo
+            <input class={inputClass} type="text" name="akce" required />
+          </label>
+          <label class={labelClass}>
+            Datum
+            <input class={inputClass} type="date" name="datum" required />
+          </label>
+          <label class={labelClass}>
+            Váš e-mail
+            <input class={inputClass} type="email" name="email" required autocomplete="email" />
+          </label>
+          <label class={labelClass}>
+            Poznámka
+            <textarea class={inputClass} name="poznamka" rows="4"></textarea>
+          </label>
+          <button
+            type="submit"
+            class="mt-2 inline-flex w-fit items-center justify-center rounded-full bg-ember px-7 py-3 font-sans text-sm font-semibold uppercase tracking-wide text-bg transition-colors hover:bg-ember-hi"
+          >
+            Odeslat poptávku
+          </button>
+        </form>
+      </div>
+
+      <div>
+        <p class="mb-2 font-sans text-xs uppercase tracking-[0.3em] text-moss">Přímé kontakty</p>
+        <h2 class="mb-6 font-display text-3xl italic text-ink md:text-4xl">Rovnou na věc</h2>
+        <ul class="divide-y divide-line border-y border-line font-sans">
+          <li class="flex items-baseline justify-between gap-4 py-4">
+            <span class="text-ink">Booking, {SITE.booking.person}</span>
+            <a class="shrink-0 text-sm text-ink-2 underline decoration-line-strong underline-offset-4 hover:text-ember hover:decoration-ember" href={SITE.booking.phoneHref}>
+              {SITE.booking.phone}
+            </a>
+          </li>
+          <li class="flex items-baseline justify-between gap-4 py-4">
+            <span class="text-ink">Koncerty</span>
+            <a class="shrink-0 text-sm text-ink-2 underline decoration-line-strong underline-offset-4 hover:text-ember hover:decoration-ember" href={`mailto:${SITE.booking.email}`}>
+              {SITE.booking.email}
+            </a>
+          </li>
+          <li class="flex items-baseline justify-between gap-4 py-4">
+            <span class="text-ink">Objednávky</span>
+            <a class="shrink-0 text-sm text-ink-2 underline decoration-line-strong underline-offset-4 hover:text-ember hover:decoration-ember" href={`mailto:${SITE.shopEmail}`}>
+              {SITE.shopEmail}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</LayoutPriroda>

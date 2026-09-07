@@ -1,0 +1,43 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="Ochrana osobních údajů — Kaczi" description="Jaké údaje web zpracovává, proč, jak dlouho a jaká máte práva.">
+  <div class="wrap">
+    <header class="hero">
+      <div class="hero__copy">
+        <h1 class="hero__name">Osobní údaje</h1>
+        <p class="hero__claim">Kostra dokumentu. Doplňte skutečné údaje správce a nechte zkontrolovat.</p>
+      </div>
+    </header>
+  </div>
+
+  <section class="sec">
+    <div class="wrap doc">
+      <h2 class="h2">Správce údajů</h2>
+      <p>Jméno, IČO, sídlo, kontaktní e-mail.</p>
+
+      <h2 class="h2">Jaké údaje a proč</h2>
+      <p>Objednávka: jméno, adresa, e-mail, telefon — plnění smlouvy. Newsletter: e-mail — na základě souhlasu, kdykoli odvolatelného. Poptávka koncertu: kontakt a popis akce — jednání o smlouvě.</p>
+
+      <h2 class="h2">Jak dlouho</h2>
+      <p>Účetní doklady 10 let, newsletter do odvolání souhlasu, poptávky 2 roky.</p>
+
+      <h2 class="h2">Komu se předávají</h2>
+      <p>Dopravce, platební brána, nástroj pro rozesílku newsletteru, poskytovatel hostingu.</p>
+
+      <h2 class="h2">Cookies a měření</h2>
+      <p>Analytika se spouští až po udělení souhlasu. Souhlas lze kdykoli změnit v Nastavení cookies v patičce.</p>
+
+      <h2 class="h2">Vaše práva</h2>
+      <p>Přístup k údajům, oprava, výmaz, omezení zpracování, přenositelnost, námitka a stížnost u Úřadu pro ochranu osobních údajů.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .doc { max-width: 68ch; }
+  .doc .h2 { font-size: clamp(22px, 2.6vw, 30px); margin-top: 44px; }
+  .doc .h2:first-child { margin-top: 0; }
+  .doc p { color: var(--fg-2); line-height: 1.7; margin-top: 12px; }
+</style>

@@ -1,0 +1,70 @@
+---
+/**
+ * Tour dates — směr "příroda". Bere data výhradně z upcoming()/past()
+ * v src/lib/gigs.ts — jediný zdroj pravdy pro koncerty (viz CLAUDE.md).
+ * Nikdy sem nepiš termín ručně.
+ */
+import { czDate, type Gig } from "../../lib/gigs";
+
+interface Props {
+  gigs: Gig[];
+  heading?: string;
+}
+
+const { gigs, heading = "Kde hraju" } = Astro.props;
+---
+
+<section class="bg-bg py-20 text-ink md:py-28" id="koncerty">
+  <div class="mx-auto max-w-6xl px-6 md:px-10">
+    <div class="mb-12 flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <p class="mb-2 font-sans text-xs uppercase tracking-[0.3em] text-ember">Tour dates</p>
+        <h2 class="font-display text-4xl italic text-ink md:text-5xl">{heading}</h2>
+      </div>
+      <a
+        href="/koncerty.ics"
+        class="font-sans text-sm uppercase tracking-[0.1em] text-ink-2 underline decoration-line-strong underline-offset-4 hover:text-ember hover:decoration-ember"
+      >
+        Přidat do kalendáře
+      </a>
+    </div>
+
+    {
+      gigs.length === 0 ? (
+        <p class="font-sans text-ink-3">Momentálně žádné vypsané termíny. Nové přidáváme průběžně.</p>
+      ) : (
+        <ul class="divide-y divide-line border-y border-line">
+          {gigs.map((g) => (
+            <li class="flex flex-col gap-3 py-6 sm:flex-row sm:items-center sm:gap-8">
+              <time
+                datetime={g.data.date}
+                class="font-display text-2xl italic text-ember sm:w-28 sm:shrink-0"
+              >
+                {czDate(g.data.date)}
+              </time>
+              <div class="flex-1 font-sans">
+                <p class="text-lg text-ink">{g.data.city}</p>
+                <p class="text-sm text-ink-3">
+                  {g.data.venue} · {g.data.time}
+                </p>
+              </div>
+              {g.data.ticketUrl ? (
+                <a
+                  href={g.data.ticketUrl}
+                  rel="noopener"
+                  class="shrink-0 rounded-sm border border-line-strong px-5 py-2 font-sans text-sm uppercase tracking-[0.08em] text-ink transition-colors hover:border-ember hover:text-ember focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ember"
+                >
+                  Vstupenky
+                </a>
+              ) : (
+                <span class="shrink-0 font-sans text-sm uppercase tracking-[0.08em] text-ink-3">
+                  {g.data.note || "Volný vstup"}
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</section>

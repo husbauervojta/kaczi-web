@@ -1,0 +1,200 @@
+---
+/**
+ * Samostatný layout pro koncept "příroda" — vědomě NEIMPORTUJE
+ * tokens.css/base.css (Tailwind preflight by se s nimi bil).
+ * Až se směr případně vybere jako finální, sloučí se s Base.astro;
+ * do té doby žije vedle beze změny zbytku webu.
+ *
+ * Nav, patička a košík jsou tu jednou pro všechny podstránky konceptu.
+ * Jediné JS na stránce je logika košíku (localStorage, žádný server).
+ */
+import "../styles/priroda.css";
+import PrirodaNav from "../components/priroda/PrirodaNav.astro";
+import PrirodaFooter from "../components/priroda/PrirodaFooter.astro";
+import CartDrawer from "../components/priroda/CartDrawer.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  navVariant?: "overlay" | "solid";
+}
+
+const { title, description = "Kaczi, koncept nového vizuálního směru.", navVariant = "solid" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap"
+    />
+  </head>
+  <body class="bg-bg text-ink antialiased">
+    <a
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-sm focus:bg-ember focus:px-4 focus:py-2 focus:text-bg"
+      href="#obsah"
+    >
+      Přeskočit na obsah
+    </a>
+
+    <PrirodaNav variant={navVariant} current={Astro.url.pathname} />
+
+    <main id="obsah">
+      <slot />
+    </main>
+
+    <PrirodaFooter />
+    <CartDrawer />
+
+    <script>
+      const CART_KEY = "kaczi-cart-v1";
+
+      type CartItem = { id: string; title: string; price: number; meta: string; qty: number };
+
+      function getCart(): CartItem[] {
+        try {
+          return JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+        } catch {
+          return [];
+        }
+      }
+      function saveCart(items: CartItem[]) {
+        localStorage.setItem(CART_KEY, JSON.stringify(items));
+        renderBadge();
+        renderDrawer();
+      }
+      function totalCount(cart: CartItem[]) {
+        return cart.reduce((s, i) => s + i.qty, 0);
+      }
+      function totalPrice(cart: CartItem[]) {
+        return cart.reduce((s, i) => s + i.qty * i.price, 0);
+      }
+      function czk(n: number) {
+        return n.toLocaleString("cs-CZ") + " Kč";
+      }
+
+      function addItem(id: string, title: string, price: number, meta: string) {
+        const cart = getCart();
+        const existing = cart.find((i) => i.id === id);
+        if (existing) existing.qty += 1;
+        else cart.push({ id, title, price, meta, qty: 1 });
+        saveCart(cart);
+        openDrawer();
+      }
+      function changeQty(id: string, delta: number) {
+        const cart = getCart()
+          .map((i) => (i.id === id ? { ...i, qty: i.qty + delta } : i))
+          .filter((i) => i.qty > 0);
+        saveCart(cart);
+      }
+      function removeItem(id: string) {
+        saveCart(getCart().filter((i) => i.id !== id));
+      }
+
+      function renderBadge() {
+        const count = totalCount(getCart());
+        document.querySelectorAll<HTMLElement>("[data-cart-badge]").forEach((el) => {
+          el.textContent = String(count);
+          el.hidden = count === 0;
+        });
+      }
+
+      function renderDrawer() {
+        const cart = getCart();
+        const itemsWrap = document.querySelector<HTMLElement>("[data-cart-items]");
+        const emptyWrap = document.querySelector<HTMLElement>("[data-cart-empty]");
+        const footerWrap = document.querySelector<HTMLElement>("[data-cart-footer]");
+        const template = document.getElementById("cart-item-template") as HTMLTemplateElement | null;
+        if (!itemsWrap || !emptyWrap || !footerWrap || !template) return;
+
+        itemsWrap.innerHTML = "";
+        if (cart.length === 0) {
+          emptyWrap.hidden = false;
+          itemsWrap.hidden = true;
+          footerWrap.hidden = true;
+          return;
+        }
+        emptyWrap.hidden = true;
+        itemsWrap.hidden = false;
+        footerWrap.hidden = false;
+
+        for (const item of cart) {
+          const node = template.content.cloneNode(true) as DocumentFragment;
+          node.querySelector('[data-field="title"]')!.textContent = item.title;
+          node.querySelector('[data-field="meta"]')!.textContent = item.meta;
+          node.querySelector('[data-field="qty"]')!.textContent = String(item.qty);
+          node.querySelector('[data-field="linetotal"]')!.textContent = czk(item.qty * item.price);
+          const root = node.querySelector<HTMLElement>("[data-cart-item]")!;
+          root.dataset.id = item.id;
+          itemsWrap.appendChild(node);
+        }
+
+        const totalEl = document.querySelector("[data-cart-total]");
+        if (totalEl) totalEl.textContent = czk(totalPrice(cart));
+
+        const checkout = document.querySelector<HTMLAnchorElement>("[data-cart-checkout]");
+        if (checkout) {
+          const lines = cart.map((i) => `${i.qty}x ${i.title}, ${czk(i.qty * i.price)}`).join("\n");
+          const body = `Dobrý den,\n\nmám zájem o:\n${lines}\n\nCelkem: ${czk(totalPrice(cart))}\n\nJméno a adresa pro doručení:`;
+          checkout.href = `mailto:info@kaczi.cz?subject=${encodeURIComponent("Objednávka z webu")}&body=${encodeURIComponent(body)}`;
+        }
+      }
+
+      function openDrawer() {
+        document.getElementById("cart-drawer")?.classList.remove("translate-x-full");
+        document.querySelector("[data-cart-backdrop]")?.classList.remove("hidden");
+      }
+      function closeDrawer() {
+        document.getElementById("cart-drawer")?.classList.add("translate-x-full");
+        document.querySelector("[data-cart-backdrop]")?.classList.add("hidden");
+      }
+
+      document.addEventListener("click", (e) => {
+        const target = e.target as HTMLElement;
+
+        const addBtn = target.closest<HTMLElement>("[data-add-to-cart]");
+        if (addBtn) {
+          addItem(addBtn.dataset.id!, addBtn.dataset.title!, Number(addBtn.dataset.price), addBtn.dataset.meta || "");
+          return;
+        }
+        if (target.closest("[data-cart-toggle]")) {
+          openDrawer();
+          return;
+        }
+        if (target.closest("[data-cart-close]")) {
+          closeDrawer();
+          return;
+        }
+        if (target.closest("[data-cart-backdrop]")) {
+          closeDrawer();
+          return;
+        }
+        const removeBtn = target.closest<HTMLElement>("[data-cart-remove]");
+        if (removeBtn) {
+          const id = removeBtn.closest<HTMLElement>("[data-cart-item]")?.dataset.id;
+          if (id) removeItem(id);
+          return;
+        }
+        const qtyBtn = target.closest<HTMLElement>("[data-cart-qty]");
+        if (qtyBtn) {
+          const id = qtyBtn.closest<HTMLElement>("[data-cart-item]")?.dataset.id;
+          const delta = Number(qtyBtn.dataset.cartQty);
+          if (id) changeQty(id, delta);
+          return;
+        }
+      });
+
+      renderBadge();
+      renderDrawer();
+    </script>
+  </body>
+</html>

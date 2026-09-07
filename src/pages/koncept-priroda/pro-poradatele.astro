@@ -1,0 +1,62 @@
+---
+import LayoutPriroda from "../../layouts/LayoutPriroda.astro";
+import PageHeader from "../../components/priroda/PageHeader.astro";
+import PressBooking from "../../components/priroda/PressBooking.astro";
+import { SITE, MILNIKY, PRESS_KIT } from "../../lib/site";
+import { past, czDate } from "../../lib/gigs";
+
+const odehrane = (await past()).slice(0, 6);
+---
+
+<LayoutPriroda
+  title="Press kit pro pořadatele, Kaczi"
+  description="Tiskové fotografie, technický rider, stage plan, logo a bio ke stažení."
+>
+  <PageHeader
+    kicker="Pro pořadatele"
+    title="Bez čekání na odpověď"
+    intro="Dramaturg nemá čas psát e-mail a čekat den na reakci. Stáhněte si, co potřebujete, a ozvěte se, až budete mít termín."
+  />
+
+  <section class="bg-bg py-20 md:py-28">
+    <div class="mx-auto max-w-6xl px-6 md:px-10">
+      <p class="mb-2 font-sans text-xs uppercase tracking-[0.3em] text-ember">Kariéra ve zkratce</p>
+      <h2 class="mb-10 font-display text-4xl italic text-ink md:text-5xl">Fakta pro dramaturga</h2>
+      <ol class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          MILNIKY.map((m) => (
+            <li class="border-l-2 border-moss/60 pl-5">
+              <span class="font-display text-3xl italic text-ink">{m.year}</span>
+              <p class="mt-1 font-sans text-sm leading-relaxed text-ink-2">{m.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <PressBooking pressKit={PRESS_KIT} booking={SITE.booking} />
+
+  {
+    odehrane.length > 0 && (
+      <section class="bg-bg py-20 md:py-28">
+        <div class="mx-auto max-w-6xl px-6 md:px-10">
+          <p class="mb-2 font-sans text-xs uppercase tracking-[0.3em] text-moss">Reference</p>
+          <h2 class="mb-10 font-display text-4xl italic text-ink md:text-5xl">Naposledy hrála</h2>
+          <ul class="divide-y divide-line border-y border-line font-sans">
+            {odehrane.map((g) => (
+              <li class="flex flex-wrap items-baseline justify-between gap-2 py-4">
+                <span class="text-ink">
+                  {g.data.city}, {g.data.venue}
+                </span>
+                <time datetime={g.data.date} class="text-sm text-ink-3">
+                  {czDate(g.data.date)}
+                </time>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+</LayoutPriroda>

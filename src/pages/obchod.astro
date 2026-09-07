@@ -1,0 +1,86 @@
+---
+import Base from "../layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+const vydani = (await getCollection("vydani")).sort((a, b) => b.data.year - a.data.year);
+
+const merch = [
+  { title: "Tričko Beskydy", priceCzk: 390, note: "Pánské i dámské, S–XXL" },
+  { title: "Tričko Kaczi", priceCzk: 350, note: "S–XXL" },
+  { title: "Kožený náramek", priceCzk: 149, note: "Ruční výroba" },
+  { title: "Trsátko Kaczi", priceCzk: 30, note: "Sada 3 ks" },
+];
+---
+
+<Base title="Obchod — desky a merch Kaczi" description="LP a CD Kněhyně, album Nahá, EP Polonahá a merch. Doprava po ČR do dvou dnů.">
+  <div class="wrap">
+    <header class="hero">
+      <div class="hero__copy">
+        <h1 class="hero__name">Obchod</h1>
+        <p class="hero__claim">
+          Desky s podpisem, trička a drobnosti. Odesíláme do dvou pracovních dnů, platba kartou nebo převodem.
+        </p>
+      </div>
+    </header>
+  </div>
+
+  <section class="sec">
+    <div class="wrap">
+      <p class="eyebrow">Desky</p>
+      <h2 class="h2">Hudba na nosiči</h2>
+      <div class="grid">
+        {vydani.map((v) => (
+          <article class="card">
+            <div class="shot" data-label="Obal · 1:1"></div>
+            <h3>{v.data.title}</h3>
+            <p class="meta">{v.data.format} · {v.data.year}</p>
+            <p class="price">{v.data.priceCzk} Kč</p>
+            <a class="btn btn--fill" href="/obchod/">Do košíku</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <p class="eyebrow">Merch</p>
+      <h2 class="h2">Na sebe i do kapsy</h2>
+      <div class="grid">
+        {merch.map((m) => (
+          <article class="card">
+            <div class="shot" data-label="Produkt · 1:1"></div>
+            <h3>{m.title}</h3>
+            <p class="meta">{m.note}</p>
+            <p class="price">{m.priceCzk} Kč</p>
+            <a class="btn btn--fill" href="/obchod/">Do košíku</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <p class="eyebrow">Doprava a platba</p>
+      <h2 class="h2">Než objednáte</h2>
+      <ul class="kit" style="margin-top:26px">
+        <li>Zásilkovna na výdejní místo <em>79 Kč</em></li>
+        <li>Česká pošta — Balík do ruky <em>129 Kč</em></li>
+        <li>Osobní převzetí na koncertě <em>zdarma</em></li>
+        <li>Platba kartou nebo bankovním převodem <em>ihned po objednávce</em></li>
+        <li>Vrácení do 14 dnů bez udání důvodu <em>viz obchodní podmínky</em></li>
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--gap-l); margin-top: var(--gap-l); }
+  .card { display: grid; gap: 6px; align-content: start; }
+  .card .shot { aspect-ratio: 1 / 1; margin-bottom: 10px; }
+  .card h3 { font-family: var(--display); font-weight: var(--display-w); font-size: 22px; margin: 0; color: var(--fg); }
+  .card .meta { font-family: var(--mono); font-size: 12px; color: var(--fg-2); margin: 0; }
+  .card .price { font-size: 17px; margin: 4px 0 12px; color: var(--fg); font-variant-numeric: tabular-nums; }
+  .card .btn { justify-self: start; }
+</style>

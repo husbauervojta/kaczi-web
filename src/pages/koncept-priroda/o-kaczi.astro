@@ -1,0 +1,64 @@
+---
+import LayoutPriroda from "../../layouts/LayoutPriroda.astro";
+import PageHeader from "../../components/priroda/PageHeader.astro";
+import MeetArtist from "../../components/priroda/MeetArtist.astro";
+import { MILNIKY, MEDIA, SITE } from "../../lib/site";
+import kaczPortrait from "../../assets/kaczi-portret.jpg";
+import kaczAction from "../../assets/kaczi-koncert.jpg";
+---
+
+<LayoutPriroda
+  title="O Kaczi"
+  description="Životopis, milníky kariéry a mediální ohlasy. Od Czechtalentu 2012 po album Kněhyně."
+>
+  <PageHeader
+    kicker="O Kaczi"
+    title="Zpívá, píše a hraje na všechno, co unese"
+    intro="Doma v Beskydech, na pódiu kdekoli od Ostravy po Edinburgh."
+  />
+
+  <MeetArtist
+    bio={SITE.claim}
+    quote={MEDIA[0]}
+    ctaHref="/koncept-priroda/pro-poradatele/"
+    ctaLabel="Press kit pro pořadatele"
+    portraitSrc={kaczPortrait}
+    portraitAlt="Kaczi zpívá, záběr z klipu Chtěla bych být"
+    actionSrc={kaczAction}
+    actionAlt="Kaczi s kapelou na louce v Beskydech, klip Chtěla bych být"
+  />
+
+  <section class="bg-bg py-20 md:py-28">
+    <div class="mx-auto max-w-6xl px-6 md:px-10">
+      <p class="mb-2 font-sans text-xs uppercase tracking-[0.3em] text-ember">Cesta</p>
+      <h2 class="mb-10 font-display text-4xl italic text-ink md:text-5xl">Milníky</h2>
+      <ol class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          MILNIKY.map((m) => (
+            <li class="border-l-2 border-ember/60 pl-5">
+              <span class="font-display text-3xl italic text-ink">{m.year}</span>
+              <p class="mt-1 font-sans text-sm leading-relaxed text-ink-2">{m.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="bg-bg-2 py-20 md:py-28">
+    <div class="mx-auto max-w-4xl px-6 md:px-10">
+      <p class="mb-2 font-sans text-xs uppercase tracking-[0.3em] text-moss">Ohlasy</p>
+      <h2 class="mb-10 font-display text-4xl italic text-ink md:text-5xl">Psali o ní</h2>
+      <div class="grid gap-8 sm:grid-cols-2">
+        {
+          MEDIA.map((m) => (
+            <blockquote class="border-l-2 border-line-strong pl-5 font-sans text-ink-2">
+              <p class="italic">„{m.quote}"</p>
+              <cite class="mt-2 block text-sm not-italic text-ink-3">{m.source}</cite>
+            </blockquote>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</LayoutPriroda>

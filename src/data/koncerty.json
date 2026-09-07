@@ -1,0 +1,65 @@
+[
+  {
+    "id": "2026-09-11-mikulov",
+    "date": "2026-09-11",
+    "time": "18:30",
+    "city": "Mikulov",
+    "venue": "Pálavské vinobraní",
+    "ticketUrl": "https://www.palavske-vinobrani.cz/",
+    "note": ""
+  },
+  {
+    "id": "2026-09-12-kozlovice",
+    "date": "2026-09-12",
+    "time": "17:00",
+    "city": "Kozlovice",
+    "venue": "Obecní slavnost",
+    "ticketUrl": "",
+    "note": "Volný vstup"
+  },
+  {
+    "id": "2026-09-19-rychvald",
+    "date": "2026-09-19",
+    "time": "13:30",
+    "city": "Rychvald",
+    "venue": "Rychvaldské slavnosti",
+    "ticketUrl": "",
+    "note": "Volný vstup"
+  },
+  {
+    "id": "2026-10-04-jablunkov",
+    "date": "2026-10-04",
+    "time": "18:00",
+    "city": "Jablunkov",
+    "venue": "Charita Jablunkov",
+    "ticketUrl": "https://www.kaczi.cz/koncerty/",
+    "note": "Benefiční koncert"
+  },
+  {
+    "id": "2026-10-09-chlumany",
+    "date": "2026-10-09",
+    "time": "19:00",
+    "city": "Chlumany",
+    "venue": "U Vyšaty",
+    "ticketUrl": "https://www.kaczi.cz/koncerty/",
+    "note": ""
+  },
+  {
+    "id": "2026-10-17-lysa-hora",
+    "date": "2026-10-17",
+    "time": "16:30",
+    "city": "Lysá hora",
+    "venue": "Chata Maraton",
+    "ticketUrl": "https://www.kaczi.cz/koncerty/",
+    "note": "1 324 m n. m."
+  },
+  {
+    "id": "2026-11-05-ostrava",
+    "date": "2026-11-05",
+    "time": "18:30",
+    "city": "Ostrava",
+    "venue": "Planetárium Ostrava",
+    "ticketUrl": "https://www.kaczi.cz/koncerty/",
+    "note": ""
+  }
+]

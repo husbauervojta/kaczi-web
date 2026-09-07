@@ -1,0 +1,78 @@
+---
+import { SITE } from "../lib/site";
+import { getCollection } from "astro:content";
+
+const vydani = (await getCollection("vydani")).sort((a, b) => b.data.year - a.data.year);
+---
+
+<footer class="wrap">
+  <div class="foot">
+    <div class="foot__grid">
+      <div>
+        <a class="nav__logo" href="/">KACZI</a>
+        <p class="lede" style="font-size:14px;margin-top:14px;max-width:30ch">
+          Booking: {SITE.booking.person}<br />
+          <a href={SITE.booking.phoneHref}>{SITE.booking.phone}</a><br />
+          <a href={`mailto:${SITE.booking.email}`}>{SITE.booking.email}</a>
+        </p>
+      </div>
+
+      <div>
+        <h2>Web</h2>
+        <ul>
+          {SITE.nav.map((i) => <li><a href={i.href}>{i.label}</a></li>)}
+        </ul>
+      </div>
+
+      <div>
+        <h2>Obchod</h2>
+        <ul>
+          {
+            vydani.map((v) => (
+              <li>
+                <a href="/obchod/">
+                  {v.data.format.split(" / ")[0]} {v.data.title} — {v.data.priceCzk} Kč
+                </a>
+              </li>
+            ))
+          }
+          <li><a href="/obchod/">Tričko Beskydy — 390 Kč</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h2>Poslech</h2>
+        <ul>
+          <li><a href="https://open.spotify.com/" rel="noopener">Spotify</a></li>
+          <li><a href="https://music.apple.com/" rel="noopener">Apple Music</a></li>
+          <li><a href="https://www.youtube.com/" rel="noopener">YouTube</a></li>
+          <li><a href="https://www.instagram.com/" rel="noopener">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Tohle dnešnímu webu chybí a u běžícího eshopu to chybět nesmí. -->
+    <div class="legal">
+      <span>© {new Date().getFullYear()} {SITE.name}</span>
+      <a href="/obchodni-podminky/">Obchodní podmínky</a>
+      <a href="/obchodni-podminky/#reklamace">Reklamace a vrácení</a>
+      <a href="/ochrana-osobnich-udaju/">Ochrana osobních údajů</a>
+      <button type="button" class="cookie-settings">Nastavení cookies</button>
+      <span>IČO 000 000 00</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .cookie-settings {
+    appearance: none;
+    background: none;
+    border: 0;
+    border-bottom: 1px solid var(--line-strong);
+    padding: 0;
+    cursor: pointer;
+    font: inherit;
+    color: var(--fg-3);
+  }
+  .cookie-settings:hover { color: var(--fg); }
+</style>

@@ -1,0 +1,59 @@
+/* ============================================================
+   PŘÍRODA — hluboká břidlice a les, teplé západy slunce, film.
+   ------------------------------------------------------------
+   4. výtvarný směr, postavený na Tailwindu (v4, CSS-first config).
+   Nesahá do tokens.css ani do stávajících tří směrů (krajina/
+   sanson/provoz) — je to samostatná, srovnatelná varianta.
+   Komponenty nikdy nepíšou barvu/font natvrdo, jen přes tyhle
+   proměnné (--color-*, --font-*), které Tailwind promítne do
+   utility tříd (bg-ember, text-ink...).
+   ============================================================ */
+@import "tailwindcss";
+
+@theme {
+  /* základna — temná břidlice s nádechem mlhy */
+  --color-bg: oklch(15% 0.025 240);
+  --color-bg-2: oklch(19% 0.03 200);
+  --color-bg-3: oklch(25% 0.03 190);
+
+  /* vrstvy hor v hero podkladu */
+  --color-slate: oklch(32% 0.02 235);
+  --color-forest: oklch(17% 0.04 155);
+
+  /* text */
+  --color-ink: oklch(95% 0.015 80);
+  --color-ink-2: oklch(75% 0.02 75);
+  --color-ink-3: oklch(55% 0.02 70);
+
+  /* akcenty — hořící dřevo / zlatavý západ (jedna barva, dvě teploty) a mech */
+  --color-ember: oklch(72% 0.16 48);
+  --color-ember-hi: oklch(78% 0.16 48);
+  --color-gold: oklch(82% 0.13 88);
+  --color-moss: oklch(62% 0.09 150);
+
+  --color-line: oklch(95% 0.015 80 / 14%);
+  --color-line-strong: oklch(95% 0.015 80 / 30%);
+
+  --font-display: "Instrument Serif", Georgia, serif;
+  --font-sans: Archivo, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* Filmové zrno — jemná SVG turbulence přes celou fotku/podklad,
+   aby i CSS placeholder vypadal jako still ze záznamu. */
+.grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  opacity: 0.6;
+}
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes pulseLine {
+  0%, 100% { opacity: 0.25; transform: scaleY(1); }
+  50% { opacity: 0.9; transform: scaleY(1.4); }
+}

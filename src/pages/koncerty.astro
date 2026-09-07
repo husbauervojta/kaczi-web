@@ -1,0 +1,55 @@
+---
+import Base from "../layouts/Base.astro";
+import GigList from "../components/GigList.astro";
+import Newsletter from "../components/Newsletter.astro";
+import { SITE } from "../lib/site";
+import { upcoming, past, eventLd } from "../lib/gigs";
+
+const gigs = await upcoming();
+const odehrane = await past();
+const jsonLd = eventLd(gigs, SITE.url);
+---
+
+<Base
+  title="Koncerty 2026 — Kaczi"
+  description="Termíny koncertů Kaczi. Kde ji uslyšíte živě, kdy a kde koupit vstupenky."
+  jsonLd={jsonLd}
+>
+  <div class="wrap">
+    <header class="hero">
+      <div class="hero__copy">
+        <h1 class="hero__name">Koncerty</h1>
+        <p class="hero__claim">{gigs.length} nadcházejících termínů. Termín ve vašem městě si přidejte do kalendáře.</p>
+        <div class="btn-row">
+          <a class="btn btn--fill" href="/koncerty.ics">Přidat do kalendáře</a>
+          <a class="btn btn--line" href="/kontakt/">Chci ji u nás</a>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <section class="sec">
+    <div class="wrap">
+      <p class="eyebrow">Nadcházející</p>
+      <h2 class="h2">Podzim 2026</h2>
+      <GigList gigs={gigs} />
+    </div>
+  </section>
+
+  {
+    odehrane.length > 0 && (
+      <section class="sec">
+        <div class="wrap">
+          <p class="eyebrow">Odehráno</p>
+          <h2 class="h2">Kde už hrála</h2>
+          <p class="lede" style="margin-top:16px">
+            Historie koncertů není archiv, ale důkaz. Pořadatel si tady ověří, že hraje na akcích velikosti té jeho.
+          </p>
+          <GigList gigs={odehrane} />
+        </div>
+      </section>
+    )
+  }
+
+  <Newsletter />
+</Base>

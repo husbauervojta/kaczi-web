@@ -1,0 +1,51 @@
+---
+import LayoutPriroda from "../../layouts/LayoutPriroda.astro";
+import PageHeader from "../../components/priroda/PageHeader.astro";
+import VideoCard from "../../components/priroda/VideoCard.astro";
+import { getCollection } from "astro:content";
+import { VIDEOS } from "../../lib/site";
+
+const vydani = (await getCollection("vydani")).sort((a, b) => b.data.year - a.data.year);
+---
+
+<LayoutPriroda title="Hudba a videa, Kaczi" description="Alba Kněhyně a Nahá, EP Polonahá a videoklipy.">
+  <PageHeader kicker="Diskografie a videa" title="Poslechnout a podívat se" intro="Tři vydání a videoklipy, které tě odvedou rovnou na YouTube, žádný vložený přehrávač navíc." />
+
+  <section class="bg-bg py-20 md:py-28">
+    <div class="mx-auto max-w-6xl px-6 md:px-10">
+      <p class="mb-2 font-sans text-xs uppercase tracking-[0.3em] text-ember">Videoklipy</p>
+      <h2 class="mb-10 font-display text-4xl italic text-ink md:text-5xl">Podívat se</h2>
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {VIDEOS.map((v) => <VideoCard id={v.id} title={v.title} note={v.note} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-bg-2 py-20 md:py-28">
+    <div class="mx-auto max-w-6xl px-6 md:px-10">
+      <p class="mb-2 font-sans text-xs uppercase tracking-[0.3em] text-moss">Diskografie</p>
+      <h2 class="mb-10 font-display text-4xl italic text-ink md:text-5xl">Vydání</h2>
+      <ul class="divide-y divide-line border-y border-line font-sans">
+        {
+          vydani.map((v) => (
+            <li class="flex flex-wrap items-baseline justify-between gap-2 py-5">
+              <div>
+                <span class="text-lg text-ink">{v.data.title}</span>
+                {v.data.note && <span class="ml-3 text-sm text-ink-3">{v.data.note}</span>}
+              </div>
+              <span class="text-sm text-ink-3">
+                {v.data.format} · {v.data.year}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+      <a
+        href="/koncept-priroda/obchod/"
+        class="mt-9 inline-flex items-center gap-2 rounded-full bg-ember px-7 py-3 font-sans text-sm font-semibold uppercase tracking-wide text-bg transition-colors hover:bg-ember-hi"
+      >
+        Koupit desky
+      </a>
+    </div>
+  </section>
+</LayoutPriroda>

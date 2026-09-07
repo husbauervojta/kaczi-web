@@ -1,0 +1,80 @@
+---
+/**
+ * Atmosférický podklad Hero sekce — směr "příroda".
+ *
+ * Výchozí pozadí je snímek přímo z jejího oficiálního klipu Chtěla
+ * bych být — tvář musí být vidět hned nahoře, ne až po scrollu, proto
+ * záběr, kde je zřetelně ona, ne jen siluetka v krajině. Až bude
+ * k dispozici fotka z fotoshootingu ve vyšším rozlišení, stačí
+ * vyměnit import `kaczHeroPhoto` za ni v src/assets — zbytek
+ * komponenty (zrno, vinětace, vrstevnice z loga) se nemění. `imageSrc`
+ * prop dovolí fotku přebít i jinou (URL nebo jiný lokální asset).
+ */
+import { Image } from "astro:assets";
+import kaczHeroPhoto from "../../assets/kaczi-hero.jpg";
+
+interface Props {
+  imageSrc?: string;
+  imageAlt?: string;
+}
+
+const { imageSrc, imageAlt = "Kaczi tančí a zpívá na louce v Beskydech" } = Astro.props;
+---
+
+<div class="absolute inset-0 overflow-hidden" aria-hidden="true">
+  {
+    imageSrc ? (
+      <img src={imageSrc} alt={imageAlt} class="h-full w-full object-cover" />
+    ) : (
+      <Image
+        src={kaczHeroPhoto}
+        alt={imageAlt}
+        widths={[800, 1280, 1920]}
+        sizes="100vw"
+        quality={70}
+        class="h-full w-full object-cover"
+      />
+    )
+  }
+
+  <!-- teplá záře přes fotku, ladí s večerním sluncem ve fotce -->
+  <div
+    class="absolute left-1/2 top-[46%] h-[55%] w-[80%] -translate-x-1/2 rounded-full opacity-40 blur-3xl"
+    style="background: radial-gradient(closest-side, oklch(82% 0.13 88 / 55%), transparent 70%);"
+  />
+
+  <!-- vrstevnice — motiv z loga, tichý akcent vpravo nahoře -->
+  <svg
+    class="absolute -right-24 -top-24 h-[560px] w-[560px] opacity-[0.16] mix-blend-screen sm:right-0 sm:top-0"
+    viewBox="0 0 400 400"
+    fill="none"
+  >
+    {
+      [64, 108, 152, 196, 240].map((r, i) => (
+        <ellipse
+          cx="230"
+          cy="150"
+          rx={r}
+          ry={r * 0.86}
+          stroke="var(--color-gold)"
+          stroke-width={i % 2 === 0 ? 1.4 : 0.8}
+          transform={`rotate(${i * 3} 230 150)`}
+        />
+      ))
+    }
+  </svg>
+
+  <div class="grain" />
+
+  <!-- scrim pro čitelnost textu a plynulý přechod do dalších sekcí -->
+  <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/10 to-bg/25" />
+  <div class="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/40 to-transparent" />
+  <!-- rovnoměrný podklad navíc — na mobilu text sedí přes skoro celou šířku
+       fotky (ne jen vlevo jako na desktopu), takže samotný boční gradient
+       níž by na malé obrazovce nestačil. -->
+  <div class="absolute inset-0 bg-black/25" />
+  <!-- tmavší klín vlevo, kde sedí nadpis — fotka sama o sobě je na tomhle místě
+       místy světlá (oblaka, západ slunce), text potřebuje jistou čitelnost bez
+       ohledu na to, co zrovna je za ním. -->
+  <div class="absolute inset-0 bg-gradient-to-r from-black/55 via-black/15 to-transparent" />
+</div>

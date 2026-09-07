@@ -1,0 +1,47 @@
+---
+import Base from "../layouts/Base.astro";
+import Newsletter from "../components/Newsletter.astro";
+import { MILNIKY, MEDIA } from "../lib/site";
+---
+
+<Base
+  title="O Kaczi — multiinstrumentalistka a písničkářka z Beskyd"
+  description="Životopis, milníky kariéry a mediální ohlasy. Od Czechtalentu 2012 po album Kněhyně."
+>
+  <div class="wrap">
+    <header class="hero">
+      <div class="hero__copy">
+        <h1 class="hero__name">O Kaczi</h1>
+        <p class="hero__claim">
+          Zpívá, píše a hraje na všechno, co unese. Doma v Beskydech, na pódiu kdekoli od Ostravy po Edinburgh.
+        </p>
+      </div>
+      <div class="shot" data-label="Portrét · 3:4"></div>
+    </header>
+  </div>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="press">
+        <div>
+          <p class="eyebrow">Cesta</p>
+          <h2 class="h2" style="margin-bottom:26px">Milníky</h2>
+          <div class="facts">
+            {MILNIKY.map((m) => (
+              <div class="fact"><span class="fact__y">{m.year}</span><span class="fact__t">{m.text}</span></div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <p class="eyebrow">Ohlasy</p>
+          <h2 class="h2" style="margin-bottom:26px">Psali o ní</h2>
+          {MEDIA.map((m) => (
+            <blockquote class="quote"><p>{m.quote}</p><cite>{m.source}</cite></blockquote>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Newsletter />
+</Base>

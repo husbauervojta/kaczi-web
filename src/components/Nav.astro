@@ -1,0 +1,19 @@
+---
+import { SITE } from "../lib/site";
+const here = Astro.url.pathname;
+---
+
+<nav class="nav" aria-label="Hlavní">
+  <a class="nav__logo" href="/">KACZI</a>
+  <ul class="nav__links">
+    {
+      SITE.nav.map((item) => (
+        <li>
+          <a href={item.href} aria-current={here === item.href ? "page" : undefined}>
+            {item.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>

@@ -1,0 +1,49 @@
+---
+/**
+ * Srovnávací koncept 4. směru ("příroda") vedle krajina/sanson/provoz.
+ * Skládá stejná reálná data jako homepage (SITE, upcoming(), PRESS_KIT),
+ * jen v Tailwindu a teplém dark módu. Neindexuje se (viz LayoutPriroda).
+ */
+import LayoutPriroda from "../layouts/LayoutPriroda.astro";
+import Hero from "../components/priroda/Hero.astro";
+import MeetArtist from "../components/priroda/MeetArtist.astro";
+import TourDates from "../components/priroda/TourDates.astro";
+import PressBooking from "../components/priroda/PressBooking.astro";
+import { SITE, MEDIA, PRESS_KIT } from "../lib/site";
+import { upcoming, czDate } from "../lib/gigs";
+import kaczPortrait from "../assets/kaczi-portret.jpg";
+import kaczAction from "../assets/kaczi-koncert.jpg";
+
+const gigs = await upcoming();
+const nejblizsi = gigs[0];
+---
+
+<LayoutPriroda title="Koncept příroda, Kaczi" navVariant="overlay">
+  <Hero
+    name={SITE.name}
+    tagline="Písničkářka z Beskyd"
+    claim={SITE.claim}
+    primaryCta={{ label: "Poslechnout Lampy", href: "/koncept-priroda/hudba/" }}
+    secondaryCta={{ label: "Kalendář koncertů", href: "/koncept-priroda/koncerty/" }}
+    nextGig={
+      nejblizsi && {
+        date: czDate(nejblizsi.data.date),
+        city: nejblizsi.data.city,
+        venue: nejblizsi.data.venue,
+        href: "/koncept-priroda/koncerty/",
+      }
+    }
+  />
+  <MeetArtist
+    bio={SITE.claim}
+    quote={MEDIA[0]}
+    ctaHref="/koncept-priroda/o-kaczi/"
+    ctaLabel="Poznat Kaczi blíž"
+    portraitSrc={kaczPortrait}
+    portraitAlt="Kaczi zpívá, záběr z klipu Chtěla bych být"
+    actionSrc={kaczAction}
+    actionAlt="Kaczi s kapelou na louce v Beskydech, klip Chtěla bych být"
+  />
+  <TourDates gigs={gigs} />
+  <PressBooking pressKit={PRESS_KIT} booking={SITE.booking} />
+</LayoutPriroda>

@@ -1,0 +1,70 @@
+---
+import { SITE } from "../lib/site";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import Terrain from "../components/Terrain.astro";
+import ThemeSwitch from "../components/ThemeSwitch.astro";
+import "../styles/tokens.css";
+import "../styles/base.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  jsonLd?: unknown[];
+}
+
+const { title, description = SITE.description, jsonLd = [] } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE.url).href;
+
+// Person + MusicGroup — bez toho Google neví, že jde o hudebnici.
+const artistLd = {
+  "@context": "https://schema.org",
+  "@type": "MusicGroup",
+  name: SITE.name,
+  url: SITE.url,
+  genre: ["Chanson", "Pop", "Rock"],
+  description: SITE.description,
+};
+---
+
+<!doctype html>
+<html lang="cs" data-theme={SITE.theme}>
+  <head>
+    <meta charset="utf-8" />
+    <!-- Pozor: žádné maximum-scale ani user-scalable. Zoom musí zůstat. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="cs_CZ" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Bodoni+Moda:opsz,wght@6..96,400;6..96,700&family=JetBrains+Mono:wght@400;500;700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&display=swap"
+    />
+
+    <link rel="alternate" type="text/calendar" href="/koncerty.ics" title="Koncerty Kaczi" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(artistLd)} />
+    {jsonLd.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
+  </head>
+
+  <body>
+    <a class="skip" href="#obsah">Přeskočit na obsah</a>
+    <Terrain />
+    <div class="wrap"><Nav /></div>
+    <main id="obsah">
+      <slot />
+    </main>
+    <Footer />
+    <ThemeSwitch />
+  </body>
+</html>

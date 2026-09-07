@@ -1,0 +1,53 @@
+---
+import Base from "../layouts/Base.astro";
+import Newsletter from "../components/Newsletter.astro";
+import { getCollection } from "astro:content";
+
+const vydani = (await getCollection("vydani")).sort((a, b) => b.data.year - a.data.year);
+---
+
+<Base title="Hudba a videa — Kaczi" description="Alba Kněhyně a Nahá, EP Polonahá, videoklipy a nový singl Lampy.">
+  <div class="wrap">
+    <header class="hero">
+      <div class="hero__copy">
+        <h1 class="hero__name">Hudba</h1>
+        <p class="hero__claim">Tři vydání, jeden nový singl a videoklipy, které se načtou až když na ně kliknete.</p>
+      </div>
+      <div class="shot" data-label="Obal alba · 3:4"></div>
+    </header>
+  </div>
+
+  <section class="sec">
+    <div class="wrap">
+      <p class="eyebrow">Diskografie</p>
+      <h2 class="h2">Vydání</h2>
+      <ul class="kit" style="margin-top:26px">
+        {vydani.map((v) => <li>{v.data.title} — {v.data.note} <em>{v.data.format} · {v.data.year}</em></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <p class="eyebrow">Videoklipy</p>
+      <h2 class="h2">Podívat se</h2>
+      <div class="videos">
+        <div class="shot" data-label="Lampy · 16:9"></div>
+        <div class="shot" data-label="Kněhyně · 16:9"></div>
+        <div class="shot" data-label="Chladná voda · 16:9"></div>
+        <div class="shot" data-label="Domov · 16:9"></div>
+      </div>
+      <p class="lede" style="margin-top:24px">
+        Přehrávač YouTube se načte až po kliknutí. Ušetří to zhruba půl megabajtu a nenačte to cizí cookies dřív, než
+        návštěvník sám chce.
+      </p>
+    </div>
+  </section>
+
+  <Newsletter />
+</Base>
+
+<style>
+  .videos { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--gap-m); margin-top: var(--gap-l); }
+  .videos .shot { aspect-ratio: 16 / 9; }
+</style>

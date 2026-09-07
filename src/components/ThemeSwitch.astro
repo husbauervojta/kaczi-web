@@ -1,0 +1,45 @@
+---
+/**
+ * Vývojový přepínač výtvarných směrů.
+ * Až se rozhodneš, smaž tenhle soubor, jeho import v Base.astro
+ * a zbylé dva bloky v tokens.css. Nic jiného.
+ */
+import { SITE } from "../lib/site";
+
+const smery = [
+  { key: "krajina", label: "Krajina" },
+  { key: "sanson", label: "Šanson" },
+  { key: "provoz", label: "Provoz" },
+];
+---
+
+<div class="themebar" role="group" aria-label="Výtvarný směr">
+  {
+    smery.map((s) => (
+      <button type="button" data-theme-set={s.key} aria-pressed={String(SITE.theme === s.key)}>
+        {s.label}
+      </button>
+    ))
+  }
+</div>
+
+<script>
+  const bar = document.querySelector(".themebar");
+  const saved = localStorage.getItem("kaczi-theme");
+  if (saved) apply(saved);
+
+  function apply(key: string) {
+    document.documentElement.dataset.theme = key;
+    document.querySelectorAll<HTMLButtonElement>("[data-theme-set]").forEach((b) => {
+      b.setAttribute("aria-pressed", String(b.dataset.themeSet === key));
+    });
+    document.dispatchEvent(new CustomEvent("themechange"));
+  }
+
+  bar?.addEventListener("click", (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-theme-set]");
+    if (!btn?.dataset.themeSet) return;
+    localStorage.setItem("kaczi-theme", btn.dataset.themeSet);
+    apply(btn.dataset.themeSet);
+  });
+</script>

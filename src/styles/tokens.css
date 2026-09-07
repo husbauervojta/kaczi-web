@@ -1,0 +1,154 @@
+/* ============================================================
+   DESIGN TOKENS — tři výtvarné směry
+   ------------------------------------------------------------
+   Směr se přepíná jedním atributem na <html data-theme="...">.
+   Žádná komponenta nikdy nesahá na barvu přímo, vždycky přes token.
+   Až se rozhodneš, ostatní dva bloky prostě smažeš.
+   ============================================================ */
+
+:root {
+  /* rytmus a míry — společné pro všechny směry */
+  --gap-xs: 8px;
+  --gap-s: 12px;
+  --gap-m: 20px;
+  --gap-l: 34px;
+  --gap-xl: clamp(34px, 5vw, 68px);
+  --sec-pad: clamp(64px, 8vw, 104px);
+  --wrap: 1180px;
+  --focus: #2F6BFF;
+}
+
+/* ------------------------------------------------------------
+   1. KRAJINA — mlha, vrstevnice, literární antikva.
+   Tichá autorská poloha. Písničkářka z Beskyd.
+   ------------------------------------------------------------ */
+html[data-theme="krajina"] {
+  --bg: #E4E7E2;
+  --bg-2: #DADED8;
+  --bg-3: #EDEFEB;
+  --fg: #161C17;
+  --fg-2: #4E5951;
+  --fg-3: #8C958D;
+  --line: rgba(22, 28, 23, 0.15);
+  --line-strong: rgba(22, 28, 23, 0.34);
+  --accent: #3E6350;
+  --accent-hi: #2E4C3D;
+  --accent-fg: #EDEFEB;
+
+  --display: Newsreader, Georgia, "Times New Roman", serif;
+  --body: Archivo, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", monospace;
+
+  --display-w: 300;
+  --display-ls: -0.015em;
+  --logo-ls: 0.02em;
+  --hero-size: clamp(56px, 10vw, 132px);
+  --hero-w: 300;
+  --hero-ls: -0.03em;
+  --hero-style: italic;
+  --hero-case: none;
+  --hero-pad: clamp(64px, 9vw, 112px);
+  --radius: 2px;
+
+  --gig-cols: minmax(112px, 0.5fr) 1fr auto auto;
+  --gig-gap: 28px;
+  --gig-pad: 24px 0;
+  --gig-date-font: Newsreader, Georgia, serif;
+  --gig-date-w: 300;
+  --gig-date-size: 34px;
+  --gig-date-ls: -0.02em;
+
+  --quote-w: 300;
+  --quote-style: italic;
+  --h2-case: none;
+}
+
+/* ------------------------------------------------------------
+   2. ŠANSON — noc, reflektor, Bodoni.
+   Divadelní a koncertní. Prodává zážitek a vstupenky.
+   ------------------------------------------------------------ */
+html[data-theme="sanson"] {
+  --bg: #0C090B;
+  --bg-2: #151013;
+  --bg-3: #1D1619;
+  --fg: #F0E8E5;
+  --fg-2: #A3938F;
+  --fg-3: #6E615E;
+  --line: rgba(240, 232, 229, 0.15);
+  --line-strong: rgba(240, 232, 229, 0.32);
+  --accent: #A32C43;
+  --accent-hi: #BE3550;
+  --accent-fg: #F6F0EE;
+
+  --display: "Bodoni Moda", Didot, Georgia, serif;
+  --body: Archivo, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", monospace;
+
+  --display-w: 400;
+  --display-ls: -0.005em;
+  --logo-ls: 0.16em;
+  --hero-size: clamp(64px, 12vw, 168px);
+  --hero-w: 400;
+  --hero-ls: 0.02em;
+  --hero-style: normal;
+  --hero-case: uppercase;
+  --hero-pad: clamp(72px, 11vw, 140px);
+  --radius: 0px;
+
+  --gig-cols: minmax(96px, auto) 1fr auto auto;
+  --gig-gap: 32px;
+  --gig-pad: 26px 0;
+  --gig-date-font: "Bodoni Moda", Georgia, serif;
+  --gig-date-w: 400;
+  --gig-date-size: 36px;
+  --gig-date-ls: 0;
+
+  --quote-w: 400;
+  --quote-style: italic;
+  --h2-case: none;
+}
+
+/* ------------------------------------------------------------
+   3. PROVOZ — jízdní řád. Grotesk, mono data, signální červená.
+   Nejvíc prodejní a nejlíp se v tom hledá termín.
+   ------------------------------------------------------------ */
+html[data-theme="provoz"] {
+  --bg: #F2F2F0;
+  --bg-2: #FFFFFF;
+  --bg-3: #E7E7E4;
+  --fg: #0F1112;
+  --fg-2: #585D60;
+  --fg-3: #8B9093;
+  --line: rgba(15, 17, 18, 0.16);
+  --line-strong: rgba(15, 17, 18, 0.38);
+  --accent: #CE2B18;
+  --accent-hi: #A82112;
+  --accent-fg: #FFFFFF;
+
+  --display: Archivo, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --body: Archivo, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", monospace;
+
+  --display-w: 700;
+  --display-ls: -0.035em;
+  --logo-ls: -0.02em;
+  --hero-size: clamp(52px, 9.5vw, 124px);
+  --hero-w: 700;
+  --hero-ls: -0.045em;
+  --hero-style: normal;
+  --hero-case: uppercase;
+  --hero-pad: clamp(52px, 7vw, 88px);
+  --radius: 3px;
+
+  --gig-cols: auto minmax(90px, auto) 1fr auto auto;
+  --gig-gap: 24px;
+  --gig-pad: 18px 0;
+  --gig-date-font: "JetBrains Mono", monospace;
+  --gig-date-w: 700;
+  --gig-date-size: 19px;
+  --gig-date-ls: -0.02em;
+
+  --quote-w: 600;
+  --quote-style: normal;
+  --h2-case: uppercase;
+}

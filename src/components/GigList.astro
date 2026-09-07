@@ -1,0 +1,36 @@
+---
+import { czDate, type Gig } from "../lib/gigs";
+
+interface Props {
+  gigs: Gig[];
+  numbered?: boolean;
+}
+const { gigs } = Astro.props;
+---
+
+<ul class="gigs">
+  {
+    gigs.map((g, i) => (
+      <li class="gig">
+        <span class="gig__idx">{String(i + 1).padStart(2, "0")}</span>
+        <span class="gig__date">
+          <time datetime={g.data.date}>{czDate(g.data.date)}</time>
+        </span>
+        <span>
+          <span class="gig__city">{g.data.city}</span>
+          <span class="gig__venue">{g.data.venue}</span>
+        </span>
+        <span class="gig__time">{g.data.time}</span>
+        <span class="gig__act">
+          {g.data.ticketUrl ? (
+            <a class="chip" href={g.data.ticketUrl} rel="noopener">
+              Vstupenky
+            </a>
+          ) : (
+            <span class="chip chip--free">{g.data.note || "Volný vstup"}</span>
+          )}
+        </span>
+      </li>
+    ))
+  }
+</ul>
