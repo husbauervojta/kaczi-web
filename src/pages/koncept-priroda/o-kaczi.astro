@@ -2,7 +2,7 @@
 import LayoutPriroda from "../../layouts/LayoutPriroda.astro";
 import PageHeader from "../../components/priroda/PageHeader.astro";
 import MeetArtist from "../../components/priroda/MeetArtist.astro";
-import { MILNIKY, MEDIA, SITE } from "../../lib/site";
+import { MILNIKY, MEDIA, SITE, withBase } from "../../lib/site";
 import kaczPortrait from "../../assets/kaczi-portret.jpg";
 import kaczAction from "../../assets/kaczi-koncert.jpg";
 ---
@@ -20,7 +20,7 @@ import kaczAction from "../../assets/kaczi-koncert.jpg";
   <MeetArtist
     bio={SITE.claim}
     quote={MEDIA[0]}
-    ctaHref="/koncept-priroda/pro-poradatele/"
+    ctaHref={withBase("/koncept-priroda/pro-poradatele/")}
     ctaLabel="Press kit pro pořadatele"
     portraitSrc={kaczPortrait}
     portraitAlt="Kaczi zpívá, záběr z klipu Chtěla bych být"

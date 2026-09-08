@@ -11,6 +11,7 @@
  */
 import { Image } from "astro:assets";
 import logo from "../../assets/kaczi-logo-transparent.png";
+import { withBase } from "../../lib/site";
 
 interface Props {
   variant?: "overlay" | "solid";
@@ -20,12 +21,12 @@ interface Props {
 const { variant = "solid", current } = Astro.props;
 
 const links = [
-  { href: "/koncept-priroda/koncerty/", label: "Koncerty" },
-  { href: "/koncept-priroda/hudba/", label: "Hudba" },
-  { href: "/koncept-priroda/obchod/", label: "Obchod" },
-  { href: "/koncept-priroda/o-kaczi/", label: "O Kaczi" },
-  { href: "/koncept-priroda/pro-poradatele/", label: "Pro pořadatele" },
-  { href: "/koncept-priroda/kontakt/", label: "Kontakt" },
+  { href: withBase("/koncept-priroda/koncerty/"), label: "Koncerty" },
+  { href: withBase("/koncept-priroda/hudba/"), label: "Hudba" },
+  { href: withBase("/koncept-priroda/obchod/"), label: "Obchod" },
+  { href: withBase("/koncept-priroda/o-kaczi/"), label: "O Kaczi" },
+  { href: withBase("/koncept-priroda/pro-poradatele/"), label: "Pro pořadatele" },
+  { href: withBase("/koncept-priroda/kontakt/"), label: "Kontakt" },
 ];
 
 const wrapClass =
@@ -36,7 +37,7 @@ const wrapClass =
 
 <header class={wrapClass}>
   <div class="mx-auto flex max-w-[1440px] items-center justify-between px-6 py-6 md:px-12">
-    <a href="/koncept-priroda/" aria-label="Kaczi, domů" class="shrink-0">
+    <a href={withBase("/koncept-priroda/")} aria-label="Kaczi, domů" class="shrink-0">
       <Image src={logo} alt="Kaczi" height={64} width={134} style="height:64px;width:auto;" />
     </a>
 

@@ -3,7 +3,7 @@ import LayoutPriroda from "../../layouts/LayoutPriroda.astro";
 import PageHeader from "../../components/priroda/PageHeader.astro";
 import VideoCard from "../../components/priroda/VideoCard.astro";
 import { getCollection } from "astro:content";
-import { VIDEOS } from "../../lib/site";
+import { VIDEOS, withBase } from "../../lib/site";
 
 const vydani = (await getCollection("vydani")).sort((a, b) => b.data.year - a.data.year);
 ---
@@ -41,7 +41,7 @@ const vydani = (await getCollection("vydani")).sort((a, b) => b.data.year - a.da
         }
       </ul>
       <a
-        href="/koncept-priroda/obchod/"
+        href={withBase("/koncept-priroda/obchod/")}
         class="mt-9 inline-flex items-center gap-2 rounded-full bg-ember px-7 py-3 font-sans text-sm font-semibold uppercase tracking-wide text-bg transition-colors hover:bg-ember-hi"
       >
         Koupit desky

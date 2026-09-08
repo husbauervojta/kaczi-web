@@ -6,6 +6,7 @@
  * další krok podle CLAUDE.md, tohle je mezikrok, co reálně funguje
  * už teď.
  */
+import { withBase } from "../../lib/site";
 ---
 
 <div
@@ -35,7 +36,7 @@
 
   <div data-cart-empty class="flex flex-1 flex-col items-center justify-center gap-3 px-6 text-center">
     <p class="font-sans text-ink-3">Košík je zatím prázdný.</p>
-    <a href="/koncept-priroda/obchod/" data-cart-close class="font-sans text-sm uppercase tracking-wide text-ember hover:text-ember-hi">
+    <a href={withBase("/koncept-priroda/obchod/")} data-cart-close class="font-sans text-sm uppercase tracking-wide text-ember hover:text-ember-hi">
       Prohlédnout obchod
     </a>
   </div>

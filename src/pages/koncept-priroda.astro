@@ -9,7 +9,7 @@ import Hero from "../components/priroda/Hero.astro";
 import MeetArtist from "../components/priroda/MeetArtist.astro";
 import TourDates from "../components/priroda/TourDates.astro";
 import PressBooking from "../components/priroda/PressBooking.astro";
-import { SITE, MEDIA, PRESS_KIT } from "../lib/site";
+import { SITE, MEDIA, PRESS_KIT, withBase } from "../lib/site";
 import { upcoming, czDate } from "../lib/gigs";
 import kaczPortrait from "../assets/kaczi-portret.jpg";
 import kaczAction from "../assets/kaczi-koncert.jpg";
@@ -23,21 +23,21 @@ const nejblizsi = gigs[0];
     name={SITE.name}
     tagline="Písničkářka z Beskyd"
     claim={SITE.claim}
-    primaryCta={{ label: "Poslechnout Lampy", href: "/koncept-priroda/hudba/" }}
-    secondaryCta={{ label: "Kalendář koncertů", href: "/koncept-priroda/koncerty/" }}
+    primaryCta={{ label: "Poslechnout Lampy", href: withBase("/koncept-priroda/hudba/") }}
+    secondaryCta={{ label: "Kalendář koncertů", href: withBase("/koncept-priroda/koncerty/") }}
     nextGig={
       nejblizsi && {
         date: czDate(nejblizsi.data.date),
         city: nejblizsi.data.city,
         venue: nejblizsi.data.venue,
-        href: "/koncept-priroda/koncerty/",
+        href: withBase("/koncept-priroda/koncerty/"),
       }
     }
   />
   <MeetArtist
     bio={SITE.claim}
     quote={MEDIA[0]}
-    ctaHref="/koncept-priroda/o-kaczi/"
+    ctaHref={withBase("/koncept-priroda/o-kaczi/")}
     ctaLabel="Poznat Kaczi blíž"
     portraitSrc={kaczPortrait}
     portraitAlt="Kaczi zpívá, záběr z klipu Chtěla bych být"

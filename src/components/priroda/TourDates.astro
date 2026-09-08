@@ -5,6 +5,7 @@
  * Nikdy sem nepiš termín ručně.
  */
 import { czDate, type Gig } from "../../lib/gigs";
+import { withBase } from "../../lib/site";
 
 interface Props {
   gigs: Gig[];
@@ -22,7 +23,7 @@ const { gigs, heading = "Kde hraju" } = Astro.props;
         <h2 class="font-display text-4xl italic text-ink md:text-5xl">{heading}</h2>
       </div>
       <a
-        href="/koncerty.ics"
+        href={withBase("/koncerty.ics")}
         class="font-sans text-sm uppercase tracking-[0.1em] text-ink-2 underline decoration-line-strong underline-offset-4 hover:text-ember hover:decoration-ember"
       >
         Přidat do kalendáře

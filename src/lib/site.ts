@@ -1,3 +1,14 @@
+/**
+ * Cesta od kořene doplněná o base z astro.config.mjs (viz tam).
+ * Používej pro každý interní odkaz (href="/xxx" -> withBase("/xxx")),
+ * ať funguje beze změny jak na podadresáři GitHub Pages, tak později
+ * na vlastní doméně (kde base zase zmizí a withBase nic nepřidá).
+ */
+export function withBase(path: string): string {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+  return base + path;
+}
+
 /** Globální nastavení webu — jedno místo na všechno, co se opakuje. */
 export const SITE = {
   name: "Kaczi",

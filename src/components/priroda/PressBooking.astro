@@ -4,6 +4,8 @@
  * PRESS_KIT v src/lib/site.ts, stejně jako stávající /pro-poradatele/,
  * aby se fakta (kontakt, obsah balíčku) nepsala na dvě místa.
  */
+import { withBase } from "../../lib/site";
+
 interface PressItem {
   item: string;
   meta: string;
@@ -22,7 +24,7 @@ interface Props {
   epkHref?: string;
 }
 
-const { pressKit, booking, epkHref = "/press-kit-kaczi.zip" } = Astro.props;
+const { pressKit, booking, epkHref = withBase("/press-kit-kaczi.zip") } = Astro.props;
 ---
 
 <section class="bg-bg-2 py-20 text-ink md:py-28">
@@ -42,7 +44,7 @@ const { pressKit, booking, epkHref = "/press-kit-kaczi.zip" } = Astro.props;
           Stáhnout press kit
         </a>
         <a
-          href="/koncept-priroda/kontakt/"
+          href={withBase("/koncept-priroda/kontakt/")}
           class="rounded-sm border border-line-strong px-7 py-3 font-sans text-sm font-medium uppercase tracking-[0.08em] text-ink transition-colors hover:border-ink hover:bg-bg-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ember"
         >
           Poptat termín

@@ -3,7 +3,7 @@
  * Sdílená patička pro celý koncept "příroda".
  */
 import { Image } from "astro:assets";
-import { SITE } from "../../lib/site";
+import { SITE, withBase } from "../../lib/site";
 import logo from "../../assets/kaczi-logo-transparent.png";
 ---
 
@@ -18,16 +18,16 @@ import logo from "../../assets/kaczi-logo-transparent.png";
       <div>
         <p class="mb-3 text-xs uppercase tracking-[0.2em] text-ink-3">Web</p>
         <ul class="flex flex-col gap-2 text-ink-2">
-          <li><a class="hover:text-ink" href="/koncept-priroda/koncerty/">Koncerty</a></li>
-          <li><a class="hover:text-ink" href="/koncept-priroda/hudba/">Hudba</a></li>
-          <li><a class="hover:text-ink" href="/koncept-priroda/obchod/">Obchod</a></li>
-          <li><a class="hover:text-ink" href="/koncept-priroda/o-kaczi/">O Kaczi</a></li>
+          <li><a class="hover:text-ink" href={withBase("/koncept-priroda/koncerty/")}>Koncerty</a></li>
+          <li><a class="hover:text-ink" href={withBase("/koncept-priroda/hudba/")}>Hudba</a></li>
+          <li><a class="hover:text-ink" href={withBase("/koncept-priroda/obchod/")}>Obchod</a></li>
+          <li><a class="hover:text-ink" href={withBase("/koncept-priroda/o-kaczi/")}>O Kaczi</a></li>
         </ul>
       </div>
       <div>
         <p class="mb-3 text-xs uppercase tracking-[0.2em] text-ink-3">Pořadatelé</p>
         <ul class="flex flex-col gap-2 text-ink-2">
-          <li><a class="hover:text-ink" href="/koncept-priroda/pro-poradatele/">Press kit</a></li>
+          <li><a class="hover:text-ink" href={withBase("/koncept-priroda/pro-poradatele/")}>Press kit</a></li>
           <li><a class="hover:text-ink" href={SITE.booking.phoneHref}>{SITE.booking.phone}</a></li>
           <li><a class="hover:text-ink" href={`mailto:${SITE.booking.email}`}>{SITE.booking.email}</a></li>
         </ul>
@@ -35,7 +35,7 @@ import logo from "../../assets/kaczi-logo-transparent.png";
       <div>
         <p class="mb-3 text-xs uppercase tracking-[0.2em] text-ink-3">Kontakt</p>
         <ul class="flex flex-col gap-2 text-ink-2">
-          <li><a class="hover:text-ink" href="/koncept-priroda/kontakt/">Napsat</a></li>
+          <li><a class="hover:text-ink" href={withBase("/koncept-priroda/kontakt/")}>Napsat</a></li>
           <li><a class="hover:text-ink" href={`mailto:${SITE.shopEmail}`}>{SITE.shopEmail}</a></li>
         </ul>
       </div>
